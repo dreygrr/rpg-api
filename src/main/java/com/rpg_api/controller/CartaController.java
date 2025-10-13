@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Carta")
-@CrossOrigin(origins = "*") // permite chamadas do front Next.js
+@RequestMapping("/cartas")
+@CrossOrigin(origins = "*")
 public class CartaController {
     private final CartaService cartaService;
 
@@ -19,23 +19,23 @@ public class CartaController {
         this.cartaService = cartaService;
     }
 
-    @GetMapping("/Random")
-    public ResponseEntity<List<Carta>> getRandomCards(@RequestParam(defaultValue = "3") int qtd) {
+    @GetMapping("/aleatorias")
+    public ResponseEntity<List<Carta>> getCartasAleatorias(@RequestParam(defaultValue = "3") int qtd) {
         try {
             List<Carta> cartas = cartaService.gerarCartasAleatorias(qtd);
-
             return ResponseEntity.ok(cartas);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
     }
 
-    @PatchMapping("/Duelar")
-    public ResponseEntity<ResultadoDueloDto> duelarCartas(@RequestBody DueloDto dueloDto) {
+    @PostMapping("/duelo")
+    public ResponseEntity<?> duelarCartas(@RequestBody DueloDto dueloDto) {
         try {
-            return ResponseEntity.ok(cartaService.duelarCartas(dueloDto.idCartaJogador, dueloDto.idCartaInimigo));
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
+            ResultadoDueloDto resultado = cartaService.duelarCartas(dueloDto.idCartaJogador, dueloDto.idCartaInimigo);
+            return ResponseEntity.ok(resultado);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 }
