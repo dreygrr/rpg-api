@@ -1,0 +1,20 @@
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# IDEs
+/.idea/
+/.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# logs
+*.log
+
+# env
+.env
+
+# generated
+*.class
