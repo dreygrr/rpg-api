@@ -44,8 +44,10 @@ public class AuthService {
 
     public AuthResponseDto login(LoginDto loginDto) {
         // Buscar usuário por email
-        Usuario usuario = usuarioRepository.findByEmail(loginDto.getEmail())
-                .orElseThrow(() -> new RuntimeException("Email ou senha inválidos"));
+        Usuario usuario = usuarioRepository.findByEmail(loginDto.getEmail());
+        if (usuario == null) {
+            throw new RuntimeException("Email ou senha inválidos");
+        }
 
         // Verificar senha
         if (!passwordEncoder.matches(loginDto.getSenha(), usuario.getSenha())) {

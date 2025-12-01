@@ -20,11 +20,8 @@ public class Usuario {
     @Column(unique = true, nullable = false, length = 100)
     private String email;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 255)
     private String nome;
-
-    @Column(nullable = true, length = 100)
-    private String descricaoUsuario;
 
     @Column(nullable = false)
     private String senha; // Será armazenada como hash BCrypt
